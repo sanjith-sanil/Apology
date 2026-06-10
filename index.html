@@ -1142,11 +1142,16 @@
       btn.addEventListener('click', onMaybeTry);
     }
 
+    let lastMaybeNotificationTime = 0;
     function onMaybeTry(e) {
       e.preventDefault();
       e.stopPropagation();
       showNapoleon();
-      if (e.type === 'click') notifyDiscord('🙄 She tried **Maybe Later** again. Napoleon is on it.');
+      const now = Date.now();
+      if (now - lastMaybeNotificationTime > 2000) {
+        lastMaybeNotificationTime = now;
+        notifyDiscord('🙄 She tried **Maybe Later** again. Napoleon is on it.');
+      }
     }
 
     function showNapoleon() {
