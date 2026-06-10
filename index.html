@@ -730,6 +730,23 @@
       transform: scale(1.05);
     }
 
+    /* ── SCENE 3 STICKY NEXT BUTTON (mobile) ── */
+    @media (max-width: 480px) {
+      #scene3-next-btn {
+        position: fixed;
+        bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 15;
+        width: calc(100% - 48px);
+        max-width: 400px;
+        text-align: center;
+        margin-top: 0 !important;
+        box-shadow: 0 8px 32px rgba(232, 98, 138, 0.45);
+        display: none; /* shown only when scene-3 is active */
+      }
+    }
+
     /* ── UTILITIES ── */
     .mt-8 {
       margin-top: 8px;
@@ -914,7 +931,7 @@
         </div>
 
       </div>
-      <button class="btn btn-primary mt-24" onclick="goTo(4)">one last thing →</button>
+      <button class="btn btn-primary mt-24" id="scene3-next-btn" onclick="goTo(4)">one last thing →</button>
     </div>
 
     <!-- ══════════ SCENE 4 ══════════ -->
@@ -1054,6 +1071,10 @@
         // wire up dodging button when scene 4 appears
         if (n === 4) setupMaybeButton();
       }, 400);
+
+      // show/hide the fixed mobile next button for scene 3
+      const s3btn = document.getElementById('scene3-next-btn');
+      if (s3btn) s3btn.style.display = (n === 3) ? 'block' : 'none';
 
       updateDots(n);
     }
