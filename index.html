@@ -541,17 +541,19 @@
       position: fixed;
       bottom: 0;
       left: 50%;
-      transform: translateX(-50%) translateY(110%);
+      transform: translateX(-50%) translateY(200%);
       z-index: 700;
       display: flex;
       flex-direction: column;
       align-items: center;
       pointer-events: none;
       transition: transform 0.45s cubic-bezier(.2,1.4,.4,1);
+      visibility: hidden;
     }
 
     #napoleon-wrap.show {
       transform: translateX(-50%) translateY(0%);
+      visibility: visible;
     }
 
     #napoleon-bubble {
