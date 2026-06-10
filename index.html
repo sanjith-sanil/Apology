@@ -258,6 +258,45 @@
       animation: float 3.5s ease-in-out infinite;
     }
 
+    /* pulsing ring behind envelope */
+    .envelope-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -18px;
+      border-radius: 50%;
+      background: rgba(232, 98, 138, 0.15);
+      animation: pulseRing 2s ease-out infinite;
+      pointer-events: none;
+    }
+
+    .envelope-wrap.opened::before {
+      display: none;
+    }
+
+    @keyframes pulseRing {
+      0%   { transform: scale(0.88); opacity: 0.7; }
+      60%  { transform: scale(1.08); opacity: 0; }
+      100% { transform: scale(1.08); opacity: 0; }
+    }
+
+    /* tap / finger indicator */
+    .tap-hint {
+      font-size: 1.6rem;
+      animation: tapBounce 1.2s ease-in-out infinite;
+      display: block;
+      margin-top: -8px;
+      user-select: none;
+    }
+
+    .envelope-wrap.opened ~ .tap-hint {
+      display: none;
+    }
+
+    @keyframes tapBounce {
+      0%, 100% { transform: translateY(0) rotate(-10deg); }
+      50%       { transform: translateY(-8px) rotate(-10deg); }
+    }
+
     @keyframes float {
 
       0%,
@@ -737,8 +776,9 @@
     <div id="scene-1" class="scene active">
       <div class="scene-1-inner">
         <h1 style="margin-bottom:8px;">psst. hey you.</h1>
-        <p class="fade-hint" style="margin-bottom:24px;">click the envelope 🌸</p>
+        <p class="fade-hint" style="margin-bottom:4px; font-size:clamp(0.9rem,3vw,1rem); font-weight:700; color:var(--deep-pink);">tap the envelope 👇</p>
 
+        <span class="tap-hint" id="tap-hint-finger">👆</span>
         <div class="envelope-wrap" id="envelope" onclick="openEnvelope()">
           <!-- flap -->
           <div class="env-flap">
@@ -1040,6 +1080,9 @@
       const env = document.getElementById('envelope');
       if (env.classList.contains('opened')) return;
       env.classList.add('opened');
+      // hide tap hints
+      const finger = document.getElementById('tap-hint-finger');
+      if (finger) finger.style.display = 'none';
       // show button after flap opens
       setTimeout(() => {
         document.getElementById('open-it-btn').style.opacity = '1';
